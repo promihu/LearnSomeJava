@@ -3,14 +3,14 @@
  "http://java.sun.com/dtd/web-app_2_3.dtd" >
 
 <web-app>
-  <display-name>Archetype Created Web Application</display-name>
+  <display-name>Dog Web Application</display-name>
   <servlet>
-    <servlet-name>lesson1Servlet</servlet-name>
-    <servlet-class>pro.mikhail.learnsomejava.Lesson1Servlet</servlet-class>
+    <servlet-name>mvc-dispatcher</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>lesson1Servlet</servlet-name>
-    <url-pattern>/hello</url-pattern>
+    <servlet-name>mvc-dispatcher</servlet-name>
+    <url-pattern>/</url-pattern>
   </servlet-mapping>
   
 </web-app>
