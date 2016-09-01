@@ -1,6 +1,7 @@
 package pro.mikhail.learnsomejava;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -9,11 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 
-import com.google.gson.Gson;
 import org.springframework.web.util.UriComponentsBuilder;
-
-import java.util.ArrayList;
-import java.util.ListIterator;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Created by Mikhail_Prosuntsov on 8/24/2016.
@@ -44,16 +42,29 @@ public class DogHolderController {
     @RequestMapping(method= RequestMethod.GET, value = "/dog")
     @ResponseBody
     public String getAllDogs()  {
-        Gson gson = new Gson();
-        return gson.toJson(initializer.getDogList());
+
+        ObjectMapper mapper = new ObjectMapper();
+
+        try {
+            return mapper.writeValueAsString(initializer.getDogList());
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return "smth wrong";
     }
 
     @RequestMapping(method= RequestMethod.GET, value = "/dog/{id}")
     @ResponseBody
     public String getOneDogs(@PathVariable("id") int id)  {
-        Dog dog = initializer.getDogList().get(id);
-        Gson gson = new Gson();
-        return gson.toJson(dog);
+
+        ObjectMapper mapper = new ObjectMapper();
+
+        try {
+            return mapper.writeValueAsString(initializer.getDogList().get(id));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return "smth wrong";
 
     }
 
@@ -67,6 +78,8 @@ public class DogHolderController {
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(ucBuilder.path("/dog/{id}").buildAndExpand(dog.getName()).toUri());
         return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+
+        //TODO: add return of the created Dog
     }
 
 
@@ -77,19 +90,31 @@ public class DogHolderController {
 
         initializer.getDogList().set(id, dog);
 
+        ObjectMapper mapper = new ObjectMapper();
 
-        Gson gson = new Gson();
-
-        return "Dog " + gson.toJson(initializer.getDogList().get(id)) +  " modified";
+        try {
+            return "Dog " + mapper.writeValueAsString(initializer.getDogList().get(id)) +  " modified";
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return "smth wrong";
     }
 
     @RequestMapping(method= RequestMethod.DELETE, value = "/dog/{id}")
     @ResponseBody
     public String removeDog(@PathVariable("id") int id) {
-        Dog dog = initializer.getDogList().get(id);
-        Gson gson = new Gson();
-        String removedDog = gson.toJson(dog);
+
+        ObjectMapper mapper = new ObjectMapper();
+
+        String removedDog = null;
+        try {
+            removedDog = mapper.writeValueAsString(initializer.getDogList().get(id));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
         initializer.getDogList().remove(id);
+        
         return "Dog " + removedDog +  " removed";
 
     }
