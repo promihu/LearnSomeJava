@@ -32,10 +32,6 @@ public class DogHolderController {
     @RequestMapping(value = "/greeting")
     @ResponseBody
     public String greeting()  {
-//        Dog dog1 = initializer.getDogList().get(1);
-//        Gson gson = new Gson();
-//        return gson.toJson(dog1);
-
         return "holy crab";
     }
 
