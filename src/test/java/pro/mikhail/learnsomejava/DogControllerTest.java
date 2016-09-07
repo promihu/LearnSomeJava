@@ -15,7 +15,7 @@ import static com.jayway.restassured.RestAssured.*;
 //@RunWith(value=SpringJUnit4ClassRunner.class)
 //@WebAppConfiguration
 //@ContextConfiguration("../../../../webapp/WEB-INF/mvc-dispatcher-servlet.xml")
-public class DogHolderControllerTest {
+public class DogControllerTest {
 
         @Test
         public void shouldHaveAtleastOneDogName(){
