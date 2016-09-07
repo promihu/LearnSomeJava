@@ -3,9 +3,9 @@ package pro.mikhail.learnsomejava;
 
 import org.testng.annotations.Test;
 
-import static io.restassured.module.mockmvc.RestAssuredMockMvc.given;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.core.StringContains.containsString;
+import static com.jayway.restassured.RestAssured.*;
 
 /**
  * Created by Mikhail_Prosuntsov on 9/2/2016.
@@ -19,8 +19,10 @@ public class DogHolderControllerTest {
 
         @Test
         public void shouldHaveAtleastOneDogName(){
-        given().when().get("/dog").then().
+        given().when().get("localhost:8080/dog").then().
                 body(containsString("name"));
+
+                System.out.println("It works :)");
 }
 
 //
