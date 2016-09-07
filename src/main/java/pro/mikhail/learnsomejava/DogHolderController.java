@@ -114,7 +114,7 @@ public class DogHolderController {
         }
 
         initializer.getDogList().remove(id);
-        
+
         return "Dog " + removedDog +  " removed";
 
     }
