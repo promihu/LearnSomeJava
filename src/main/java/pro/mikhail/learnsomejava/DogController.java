@@ -31,60 +31,65 @@ public class DogController {
 
     }
 
-    @RequestMapping(value = "/greeting")
-    @ResponseBody
-    public String greeting()    {
-        return "holy crab";
+    @RequestMapping(method = RequestMethod.GET, value = "/dog", produces = "application/json")
+    public ResponseEntity<List<Dog>> getAllDogs()  {
+
+        List<Dog> dogList = initializer.getDogList();
+
+        if(dogList.size() > 0){
+            return new ResponseEntity<>(dogList, HttpStatus.OK);
+        }
+        //TODO: put right status here
+        return new ResponseEntity<>(HttpStatus.I_AM_A_TEAPOT);
     }
 
-    @RequestMapping(method= RequestMethod.GET, value = "/dog", produces = "application/json")
-    @ResponseBody
-    public List<Dog> getAllDogs()  {
+    @RequestMapping(method = RequestMethod.GET, value = "/dog/{id}", produces = "application/json")
+    public ResponseEntity<Dog> getOneDog(@PathVariable("id") int id)  {
 
-        return initializer.getDogList();
+        Dog dog = initializer.getDogList().get(id);
 
+        if(dog != null){
+            return new ResponseEntity<>(dog, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @RequestMapping(method= RequestMethod.GET, value = "/dog/{id}", produces = "application/json")
-    @ResponseBody
-    public Dog getOneDogs(@PathVariable("id") int id)  {
-
-            return initializer.getDogList().get(id);
-    }
-
-    @RequestMapping(method= RequestMethod.POST, value = "/dog", produces = "application/json")
-    public ResponseEntity<Void> createDog(@RequestBody Dog dog, UriComponentsBuilder ucBuilder) {
-        System.out.println("Creating Dog " + dog.getName());
+    @RequestMapping(method = RequestMethod.POST, value = "/dog", produces = "application/json")
+    public ResponseEntity<Dog> createDog(@RequestBody Dog dog, UriComponentsBuilder ucBuilder) {
 
         initializer.getDogList().add(dog);
-
-        //some copypasted bullshit here
         HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(ucBuilder.path("/dog/{id}").buildAndExpand(dog.getName()).toUri());
-        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+        int dogIndex = initializer.getDogList().indexOf(dog);
 
-        //TODO: add return of the created Dog
+        if(dogIndex != -1){
+            headers.setLocation(ucBuilder.path("/dog/{id}").buildAndExpand(dogIndex).toUri());
+            return new ResponseEntity<>(headers, HttpStatus.CREATED);
+        }
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-
-
-    @RequestMapping(method= RequestMethod.PUT, value = "/dog/{id}", produces = "application/json")
-    @ResponseBody
-    public Dog updateDog(@PathVariable("id") int id, @RequestBody Dog dog) {
+    @RequestMapping(method = RequestMethod.PUT, value = "/dog/{id}", produces = "application/json")
+    public ResponseEntity<Dog> updateDog(@PathVariable("id") int id, @RequestBody Dog dog, UriComponentsBuilder ucBuilder) {
 
         initializer.getDogList().set(id, dog);
-        return initializer.getDogList().get(id);
+        HttpHeaders headers = new HttpHeaders();
+        int dogIndex = initializer.getDogList().indexOf(dog);
+
+        if(dogIndex != -1){
+            headers.setLocation(ucBuilder.path("/dog/{id}").buildAndExpand(dogIndex).toUri());
+            return new ResponseEntity<>(headers, HttpStatus.CREATED);
+        }
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @RequestMapping(method= RequestMethod.DELETE, value = "/dog/{id}", produces = "application/json")
-    @ResponseBody
-    public Dog removeDog(@PathVariable("id") int id) {
+    public ResponseEntity<Dog> removeDog(@PathVariable("id") int id) {
 
-        Dog removedDog = initializer.getDogList().get(id);
-        initializer.getDogList().remove(id);
+        Dog removedDog = initializer.getDogList().remove(id);
 
-        return removedDog;
-
+        if (removedDog != null){
+            return new ResponseEntity<>(removedDog, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-
 }
