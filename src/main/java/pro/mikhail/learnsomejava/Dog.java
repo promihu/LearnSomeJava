@@ -10,6 +10,8 @@ import java.util.Date;
 
 public class Dog {
 
+    private static int globalID = 0;
+    private int id;
     private String name;
     private Date dateOfBirth;
     private int height;
@@ -33,6 +35,8 @@ public class Dog {
             e.printStackTrace();
         }
 
+        this.setId(globalID);
+        globalID++;
         this.setName(name);
         this.setDateOfBirth(date);
         this.setHeight(height);
@@ -43,8 +47,8 @@ public class Dog {
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
-        Date date = new Date();
-
+        this.setId(globalID);
+        globalID++;
         this.setName(name);
         this.setWeight(weight);
     }
@@ -78,6 +82,10 @@ public class Dog {
         return weight;
     }
 
+    public int getId() {
+        return id;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -92,5 +100,9 @@ public class Dog {
 
     public void setWeight(int weight) {
         this.weight = weight;
+    }
+
+    private void setId(int id) {
+        this.id = id;
     }
 }
