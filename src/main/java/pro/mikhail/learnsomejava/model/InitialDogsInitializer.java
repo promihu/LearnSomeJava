@@ -1,4 +1,6 @@
-package pro.mikhail.learnsomejava;
+package pro.mikhail.learnsomejava.model;
+
+import pro.mikhail.learnsomejava.model.Dog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +12,7 @@ public class InitialDogsInitializer {
 
     private List<Dog> dogList = new ArrayList<>();
 
-    InitialDogsInitializer() {
+    public InitialDogsInitializer() {
 
         Dog dog1 = new Dog("Dog1", "10/01/1981", 10, 20);
         dogList.add(dog1);

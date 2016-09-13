@@ -1,4 +1,6 @@
-pro\mikhail\learnsomejava\Dog.class
-pro\mikhail\learnsomejava\DogController.class
+pro\mikhail\learnsomejava\model\InitialDogsInitializer.class
 pro\mikhail\learnsomejava\Lesson1Servlet.class
-pro\mikhail\learnsomejava\InitialDogsInitializer.class
+pro\mikhail\learnsomejava\dao\DogDao.class
+pro\mikhail\learnsomejava\model\Dog.class
+pro\mikhail\learnsomejava\controller\DogController.class
+pro\mikhail\learnsomejava\service\DogService.class

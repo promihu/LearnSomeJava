@@ -1,4 +1,4 @@
-package pro.mikhail.learnsomejava;
+package pro.mikhail.learnsomejava.model;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -21,7 +21,7 @@ public class Dog {
 
     }
 
-    Dog(String name, String dateOfBirth, int height, int weight){
+    public Dog(String name, String dateOfBirth, int height, int weight){
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -43,7 +43,7 @@ public class Dog {
         this.setWeight(weight);
     }
 
-    Dog(String name, int weight){
+    public Dog(String name, int weight){
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 

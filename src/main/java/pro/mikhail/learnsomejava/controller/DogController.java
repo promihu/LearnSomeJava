@@ -1,4 +1,4 @@
-package pro.mikhail.learnsomejava;
+package pro.mikhail.learnsomejava.controller;
 
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -10,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.web.util.UriComponentsBuilder;
+import pro.mikhail.learnsomejava.model.Dog;
+import pro.mikhail.learnsomejava.model.InitialDogsInitializer;
 
 import java.util.List;
 

@@ -1,19 +1,15 @@
-package pro.mikhail.learnsomejava;
+package pro.mikhail.learnsomejava.controller;
 
 
-import io.restassured.RestAssured;
-import io.restassured.http.ContentType;
 import io.restassured.response.Response;
-import org.hamcrest.core.IsEqual;
-import org.springframework.http.HttpStatus;
 import org.testng.annotations.Test;
+import pro.mikhail.learnsomejava.model.Dog;
 
 import java.util.List;
 
-import static io.restassured.http.ContentType.*;
+import static io.restassured.RestAssured.given;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.hamcrest.core.StringContains.containsString;
-import static io.restassured.RestAssured.given;
 
 
 /**
@@ -44,17 +40,33 @@ public class DogControllerTest {
     @Test
     public void addDogShouldReturnNoError(){
 
-            Dog testDog = new Dog("Test1", "10/01/1981", 10, 20);
+        Dog testDog = new Dog("Test1", "10/01/1981", 10, 20);
 
-            given()
-                .contentType("application/json")
-                .body("{\"name\":\"Superdog1\",\"weight\":20}")
+
+        Response response =
+        given()
+            .contentType("application/json")
+            .body("{\"name\":\"Superdog1\",\"weight\":20}")
             .when()
-                .post("http://localhost:8080/dog")
+            .post("http://localhost:8080/dog")
             .then()
-                .assertThat()
-                    .statusCode(201)
-            ;
+            .assertThat()
+            .statusCode(201)
+            .extract()
+            .response();
+        ;
+
+        String addedDogAddress = response.getHeader("Location");
+
+        //delete the dog
+        given()
+            .when()
+            .delete(addedDogAddress)
+            .then()
+            .assertThat()
+            .statusCode(200)
+        ;
+
         }
 
     @Test
