@@ -9,9 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-
 import org.springframework.web.util.UriComponentsBuilder;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.List;
 
@@ -54,7 +52,7 @@ public class DogController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/dog", produces = "application/json")
+    @RequestMapping(method = RequestMethod.POST, value = "/dog", produces = "text/html")
     public ResponseEntity<Dog> createDog(@RequestBody Dog dog, UriComponentsBuilder ucBuilder) {
 
         initializer.getDogList().add(dog);
@@ -71,13 +69,26 @@ public class DogController {
     @RequestMapping(method = RequestMethod.PUT, value = "/dog/{id}", produces = "application/json")
     public ResponseEntity<Dog> updateDog(@PathVariable("id") int id, @RequestBody Dog dog, UriComponentsBuilder ucBuilder) {
 
-        initializer.getDogList().set(id, dog);
+        //not sure if it is needed, but let's keep for now
+        //probably better to check parameters in the request
+        Dog updatedDog = initializer.getDogList().get(id);
+        if (dog.getName() != null)
+            updatedDog.setName(dog.getName());
+        if (dog.getDateOfBirth() != null)
+            updatedDog.setDateOfBirth(dog.getDateOfBirth());
+        if (dog.getHeight() != 0)
+            updatedDog.setHeight(dog.getHeight());
+        if (dog.getWeight() != 0)
+            updatedDog.setWeight(dog.getWeight());
+
+
+        initializer.getDogList().set(id, updatedDog);
         HttpHeaders headers = new HttpHeaders();
-        int dogIndex = initializer.getDogList().indexOf(dog);
+        int dogIndex = initializer.getDogList().indexOf(updatedDog);
 
         if(dogIndex != -1){
             headers.setLocation(ucBuilder.path("/dog/{id}").buildAndExpand(dogIndex).toUri());
-            return new ResponseEntity<>(headers, HttpStatus.CREATED);
+            return new ResponseEntity<>(headers, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }

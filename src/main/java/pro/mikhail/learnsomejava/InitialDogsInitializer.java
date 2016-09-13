@@ -1,13 +1,14 @@
 package pro.mikhail.learnsomejava;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Mikhail_Prosuntsov on 8/24/2016.
  */
 public class InitialDogsInitializer {
 
-    private ArrayList<Dog> dogList = new ArrayList<Dog>();
+    private List<Dog> dogList = new ArrayList<>();
 
     InitialDogsInitializer() {
 
@@ -21,7 +22,7 @@ public class InitialDogsInitializer {
         dogList.add(dog3);
     }
 
-    public ArrayList<Dog> getDogList() {
+    public List<Dog> getDogList() {
         return dogList;
     }
 

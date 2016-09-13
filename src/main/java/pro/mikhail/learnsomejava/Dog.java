@@ -39,8 +39,31 @@ public class Dog {
         this.setWeight(weight);
     }
 
+    Dog(String name, int weight){
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+        Date date = new Date();
+
+        this.setName(name);
+        this.setWeight(weight);
+    }
+
     public String getName() {
         return name;
+    }
+
+    public boolean equals(Dog dog1){
+        if(!((dog1.getName()).equals(this.getName())))
+            return false;
+        else if (!(dog1.getHeight() ==  this.getHeight()))
+            return false;
+        else if (!(dog1.getWeight() ==  this.getWeight()))
+            return false;
+        else if ((dog1.getDateOfBirth()).compareTo(this.getDateOfBirth()) != 0)
+            return false;
+
+        return true;
     }
 
     public Date getDateOfBirth() {
