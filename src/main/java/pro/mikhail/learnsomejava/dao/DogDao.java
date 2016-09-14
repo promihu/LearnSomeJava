@@ -3,21 +3,22 @@ package pro.mikhail.learnsomejava.dao;
 
 import pro.mikhail.learnsomejava.model.Dog;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 
 /**
  * Created by Mikhail_Prosuntsov on 9/13/2016.
  */
 public class DogDao {
 
-    private List<Dog> dogList = new ArrayList<>();
+    private Map<Integer, Dog> dogKeeper = new ConcurrentHashMap<>();
+    private static Integer dogCounter = 0;
 
-    public List<Dog> getAllDogs(){
+    public Map<Integer, Dog> getAllDogs(){
 
-        return dogList;
+        return dogKeeper;
     }
-
 
     public Dog getDog(int id){
 
@@ -25,27 +26,21 @@ public class DogDao {
     }
 
 
-    public void saveDog(Dog dog){
+    public int saveDog(Dog dog){
 
-        getAllDogs().add(dog);
-        return;
+        int savedDogID = generateNextId();
+        getAllDogs().put(savedDogID, dog);
+
+        return savedDogID;
     }
 
-    public void updateDog(int id, Dog dog){
+    public boolean updateDog(int id, Dog dog){
 
-        Dog updatedDog = getAllDogs().get(id);
-        if (dog.getName() != null)
-            updatedDog.setName(dog.getName());
-        if (dog.getDateOfBirth() != null)
-            updatedDog.setDateOfBirth(dog.getDateOfBirth());
-        if (dog.getHeight() != 0)
-            updatedDog.setHeight(dog.getHeight());
-        if (dog.getWeight() != 0)
-            updatedDog.setWeight(dog.getWeight());
-
-
-        getAllDogs().set(id, updatedDog);
-        return;
+        if(getAllDogs().containsKey(id)) {
+            getAllDogs().replace(id, dog);
+            return true;
+        }
+        return false;
     }
 
 
@@ -54,16 +49,23 @@ public class DogDao {
         return getAllDogs().remove(id);
     }
 
+    public static synchronized Integer generateNextId(){
+        return dogCounter++;
+    }
+
     public DogDao() {
 
-        Dog dog1 = new Dog("Dog1", "10/01/1981", 10, 20);
-        dogList.add(dog1);
+        int id1 = generateNextId();
+        Dog dog1 = new Dog(id1, "Dog1", "10/01/1981", 11, 21);
+        dogKeeper.put(id1, dog1);
 
-        Dog dog2 = new Dog("Dog2", "20/02/1982", 11, 21);
-        dogList.add(dog2);
+        int id2 = generateNextId();
+        Dog dog2 = new Dog(id2, "Dog2", "10/01/1981", 12, 22);
+        dogKeeper.put(id2, dog2);
 
-        Dog dog3 = new Dog("Dog3", "30/03/1983", 12, 22);
-        dogList.add(dog3);
+        int id3 = generateNextId();
+        Dog dog3 = new Dog(id3, "Dog3", "10/01/1981", 13, 23);
+        dogKeeper.put(id3, dog3);
     }
 
 }

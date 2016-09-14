@@ -21,7 +21,7 @@ public class Dog {
 
     }
 
-    public Dog(String name, String dateOfBirth, int height, int weight){
+    public Dog(int id, String name, String dateOfBirth, int height, int weight){
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -35,21 +35,10 @@ public class Dog {
             e.printStackTrace();
         }
 
-        this.setId(globalID);
-        globalID++;
+        this.setId(id);
         this.setName(name);
         this.setDateOfBirth(date);
         this.setHeight(height);
-        this.setWeight(weight);
-    }
-
-    public Dog(String name, int weight){
-
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-
-        this.setId(globalID);
-        globalID++;
-        this.setName(name);
         this.setWeight(weight);
     }
 

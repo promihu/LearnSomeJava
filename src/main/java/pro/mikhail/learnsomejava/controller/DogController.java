@@ -12,6 +12,7 @@ import pro.mikhail.learnsomejava.model.Dog;
 import pro.mikhail.learnsomejava.service.DogService;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Mikhail_Prosuntsov on 8/24/2016.
@@ -28,9 +29,9 @@ public class DogController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/test", produces = "application/json")
-    public ResponseEntity<List<Dog>> getAllDogsTest()  {
+    public ResponseEntity<Map<Integer, Dog>> getAllDogsTest()  {
 
-        List<Dog> dogList = dogService.getAllDogs();
+        Map<Integer, Dog> dogList = dogService.getAllDogs();
 
         if(dogList.size() > 0){
             return new ResponseEntity<>(dogList, HttpStatus.OK);
@@ -40,9 +41,9 @@ public class DogController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/dog", produces = "application/json")
-    public ResponseEntity<List<Dog>> getAllDogs()  {
+    public ResponseEntity<Map<Integer, Dog>> getAllDogs()  {
 
-        List<Dog> dogList = dogService.getAllDogs();
+        Map<Integer, Dog> dogList = dogService.getAllDogs();
 
         if(dogList.size() > 0){
             return new ResponseEntity<>(dogList, HttpStatus.OK);
@@ -65,12 +66,8 @@ public class DogController {
     @RequestMapping(method = RequestMethod.POST, value = "/dog", produces = "text/html")
     public ResponseEntity<Dog> createDog(@RequestBody Dog dog, UriComponentsBuilder ucBuilder) {
 
-        //return id when saving the dog
-        dogService.saveDog(dog);
+        int dogIndex = dogService.saveDog(dog);
         HttpHeaders headers = new HttpHeaders();
-
-        //TODO: hernya kakaya-to
-        int dogIndex = dogService.getAllDogs().indexOf(dog);
 
         if(dogIndex != -1){
             headers.setLocation(ucBuilder.path("/dog/{id}").buildAndExpand(dogIndex).toUri());
@@ -83,19 +80,14 @@ public class DogController {
     public ResponseEntity<Dog> updateDog(@PathVariable("id") int id, @RequestBody Dog dog, UriComponentsBuilder ucBuilder) {
 
 
-        dogService.updateDog(id, dog);
+        if (dogService.updateDog(id, dog)) {
 
-        HttpHeaders headers = new HttpHeaders();
-       // int dogIndex = dogService.getDog(id);
+            HttpHeaders headers = new HttpHeaders();
 
-        //aaaaaaaaa
-        int dogIndex = 1;
-
-        if(dogIndex != -1){
-            headers.setLocation(ucBuilder.path("/dog/{id}").buildAndExpand(dogIndex).toUri());
+            headers.setLocation(ucBuilder.path("/dog/{id}").buildAndExpand(id).toUri());
             return new ResponseEntity<>(headers, HttpStatus.OK);
         }
-        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @RequestMapping(method= RequestMethod.DELETE, value = "/dog/{id}", produces = "application/json")

@@ -3,6 +3,7 @@ package pro.mikhail.learnsomejava.controller;
 
 import io.restassured.response.Response;
 import org.testng.annotations.Test;
+import pro.mikhail.learnsomejava.dao.DogDao;
 import pro.mikhail.learnsomejava.model.Dog;
 
 import java.util.List;
@@ -19,7 +20,7 @@ import static org.hamcrest.core.StringContains.containsString;
 public class DogControllerTest {
 
 
-        private List<Dog> testDogList;
+        //private List<Dog> testDogList;
 
 
         public DogControllerTest(){
@@ -40,7 +41,7 @@ public class DogControllerTest {
     @Test
     public void addDogShouldReturnNoError(){
 
-        Dog testDog = new Dog("Test1", "10/01/1981", 10, 20);
+        Dog testDog = new Dog(DogDao.generateNextId(), "Test1", "10/01/1981", 10, 20);
 
 
         Response response =
@@ -72,7 +73,7 @@ public class DogControllerTest {
     @Test
     public void shouldAddDog(){
 
-        Dog testDog = new Dog("Test1", "10/01/1981", 10, 20);
+        Dog testDog = new Dog(DogDao.generateNextId(),"Test1", "10/01/1981", 10, 20);
 
         Response response =
 
@@ -118,7 +119,7 @@ public class DogControllerTest {
     @Test
     public void shouldGetDog(){
 
-        Dog testDog = new Dog("shouldGetDog", "10/01/1981", 10, 20);
+        Dog testDog = new Dog(DogDao.generateNextId(), "shouldGetDog", "10/01/1981", 10, 20);
 
         //add dog
         Response response =
@@ -164,7 +165,7 @@ public class DogControllerTest {
     @Test
     public void shouldReturnErrorIfNoDogToGet(){
 
-        Dog testDog = new Dog("shouldGetDog", "10/01/1981", 10, 20);
+        Dog testDog = new Dog(DogDao.generateNextId(),"shouldGetDog", "10/01/1981", 10, 20);
 
         //add dog
         Response response =
@@ -200,7 +201,7 @@ public class DogControllerTest {
                 .get(addedDogAddress)
                 .then()
                 .assertThat()
-                .statusCode(500)
+                .statusCode(404)
         ;
     }
 
@@ -209,8 +210,8 @@ public class DogControllerTest {
     @Test
     public void shouldUpdateDog(){
 
-        Dog testDog = new Dog("shouldGetDog", "10/01/1981", 10, 20);
-        Dog oldNewDog = new Dog("shouldUpdateDog", 20);
+        Dog testDog = new Dog(DogDao.generateNextId(), "shouldGetDog", "10/01/1981", 10, 20);
+        Dog oldNewDog = new Dog(DogDao.generateNextId(),"shouldUpdateDog", "10/01/1981", 1, 2);
 
         //add dog
         Response response =
@@ -247,7 +248,7 @@ public class DogControllerTest {
                 .assertThat()
                 .statusCode(200)
                 .body("name", equalTo(oldNewDog.getName()))
-                .body("height", equalTo(testDog.getHeight()))
+                .body("height", equalTo(oldNewDog.getHeight()))
                 .body("weight", equalTo(oldNewDog.getWeight()))
         ;
 
@@ -259,7 +260,7 @@ public class DogControllerTest {
                 .assertThat()
                 .statusCode(200)
                 .body("name", equalTo(oldNewDog.getName()))
-                .body("height", equalTo(testDog.getHeight()))
+                .body("height", equalTo(oldNewDog.getHeight()))
                 .body("weight", equalTo(oldNewDog.getWeight()))
         ;
 
@@ -269,8 +270,8 @@ public class DogControllerTest {
     @Test
     public void shouldReturnErrorIfNoDogToUpdate(){
 
-        Dog testDog = new Dog("shouldGetDog", "10/01/1981", 10, 20);
-        Dog oldNewDog = new Dog("shouldUpdateDog", 20);
+        Dog testDog = new Dog(DogDao.generateNextId(),"shouldGetDog", "10/01/1981", 10, 20);
+        Dog oldNewDog = new Dog(DogDao.generateNextId(),"shouldUpdateDog","10/01/1981", 10, 20);
 
         //add dog
         Response response =
@@ -308,7 +309,7 @@ public class DogControllerTest {
                 .put(addedDogAddress)
                 .then()
                 .assertThat()
-                .statusCode(500)
+                .statusCode(404)
         ;
     }
 
@@ -318,7 +319,7 @@ public class DogControllerTest {
     @Test
     public void shouldDeleteDog(){
 
-        Dog testDog = new Dog("shouldGetDog", "10/01/1981", 10, 20);
+        Dog testDog = new Dog(DogDao.generateNextId(),"shouldGetDog", "10/01/1981", 10, 20);
 
         //add dog
         Response response =
@@ -352,7 +353,7 @@ public class DogControllerTest {
     @Test
     public void shouldReturnErrorIfNoDogToDelete(){
 
-        Dog testDog = new Dog("shouldGetDog", "10/01/1981", 10, 20);
+        Dog testDog = new Dog(DogDao.generateNextId(),"shouldGetDog", "10/01/1981", 10, 20);
 
         //add dog
         Response response =
@@ -388,7 +389,7 @@ public class DogControllerTest {
                 .delete(addedDogAddress)
                 .then()
                 .assertThat()
-                .statusCode(500)
+                .statusCode(404)
         ;
     }
 

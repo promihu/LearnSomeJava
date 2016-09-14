@@ -3,8 +3,7 @@ package pro.mikhail.learnsomejava.service;
 import pro.mikhail.learnsomejava.dao.DogDao;
 import pro.mikhail.learnsomejava.model.Dog;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Mikhail_Prosuntsov on 9/13/2016.
@@ -18,7 +17,7 @@ public class DogService {
         this.dogDao = dogDao;
     }
 
-    public List<Dog> getAllDogs(){
+    public Map<Integer, Dog> getAllDogs(){
 
         return dogDao.getAllDogs();
     }
@@ -30,16 +29,13 @@ public class DogService {
     }
 
 
-    public void saveDog(Dog dog){
+    public int saveDog(Dog dog){
 
-        dogDao.saveDog(dog);
-        return;
+        return dogDao.saveDog(dog);
     }
 
-    public void updateDog(int id, Dog dog){
-
-        dogDao.updateDog(id, dog);
-        return;
+    public boolean updateDog(int id, Dog dog){
+        return dogDao.updateDog(id, dog);
     }
 
 
