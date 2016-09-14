@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.web.util.UriComponentsBuilder;
+import pro.mikhail.learnsomejava.dao.DogDao;
 import pro.mikhail.learnsomejava.model.Dog;
 import pro.mikhail.learnsomejava.model.InitialDogsInitializer;
 
@@ -26,9 +27,22 @@ public class DogController {
 
     InitialDogsInitializer initializer = new InitialDogsInitializer();
 
-    @Autowired
-    public DogController() {
+    private DogDao dogDao;
 
+    public DogController(DogDao dogDao) {
+            this.dogDao = dogDao;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/test", produces = "application/json")
+    public ResponseEntity<List<Dog>> getAllDogsTest()  {
+
+        List<Dog> dogList = dogDao.getAllDogs();
+
+        if(dogList.size() > 0){
+            return new ResponseEntity<>(dogList, HttpStatus.OK);
+        }
+        //TODO: put right status here
+        return new ResponseEntity<>(HttpStatus.I_AM_A_TEAPOT);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/dog", produces = "application/json")

@@ -6,7 +6,13 @@
     http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
     http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
-    <bean id="dogHolderControllerBean" class="pro.mikhail.learnsomejava.DogController"/>
+    <bean id="dogControllerBean" class="pro.mikhail.learnsomejava.controller.DogController">
+        <constructor-arg>
+            <ref bean="dogDaoBean"/>
+        </constructor-arg>
+    </bean>
     <mvc:annotation-driven/>
+
+    <bean id="dogDaoBean" class="pro.mikhail.learnsomejava.dao.DogDao"/>
 
 </beans>
