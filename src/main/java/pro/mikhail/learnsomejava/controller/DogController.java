@@ -1,8 +1,6 @@
 package pro.mikhail.learnsomejava.controller;
 
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,9 +8,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.web.util.UriComponentsBuilder;
-import pro.mikhail.learnsomejava.dao.DogDao;
 import pro.mikhail.learnsomejava.model.Dog;
 import pro.mikhail.learnsomejava.model.InitialDogsInitializer;
+import pro.mikhail.learnsomejava.service.DogService;
 
 import java.util.List;
 
@@ -27,16 +25,16 @@ public class DogController {
 
     InitialDogsInitializer initializer = new InitialDogsInitializer();
 
-    private DogDao dogDao;
+    private DogService dogService;
 
-    public DogController(DogDao dogDao) {
-            this.dogDao = dogDao;
+    public DogController(DogService dogService) {
+            this.dogService = dogService;
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/test", produces = "application/json")
     public ResponseEntity<List<Dog>> getAllDogsTest()  {
 
-        List<Dog> dogList = dogDao.getAllDogs();
+        List<Dog> dogList = dogService.getAllDogs();
 
         if(dogList.size() > 0){
             return new ResponseEntity<>(dogList, HttpStatus.OK);

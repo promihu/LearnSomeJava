@@ -8,10 +8,16 @@
 
     <bean id="dogControllerBean" class="pro.mikhail.learnsomejava.controller.DogController">
         <constructor-arg>
-            <ref bean="dogDaoBean"/>
+            <ref bean="dogServiceBean"/>
         </constructor-arg>
     </bean>
     <mvc:annotation-driven/>
+
+    <bean id="dogServiceBean" class="pro.mikhail.learnsomejava.service.DogService">
+        <constructor-arg>
+            <ref bean="dogDaoBean"/>
+        </constructor-arg>
+    </bean>
 
     <bean id="dogDaoBean" class="pro.mikhail.learnsomejava.dao.DogDao"/>
 
