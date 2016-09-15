@@ -6,8 +6,6 @@ import org.testng.annotations.Test;
 import pro.mikhail.learnsomejava.dao.DogDao;
 import pro.mikhail.learnsomejava.model.Dog;
 
-import java.util.List;
-
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.hamcrest.core.StringContains.containsString;
@@ -18,10 +16,6 @@ import static org.hamcrest.core.StringContains.containsString;
  */
 
 public class DogControllerTest {
-
-
-        //private List<Dog> testDogList;
-
 
         public DogControllerTest(){
 

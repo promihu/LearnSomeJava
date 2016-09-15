@@ -25,7 +25,6 @@ public class DogDao {
         return getAllDogs().get(id);
     }
 
-
     public int saveDog(Dog dog){
 
         int savedDogID = generateNextId();
@@ -42,7 +41,6 @@ public class DogDao {
         }
         return false;
     }
-
 
     public Dog removeDoge(int id){
 
