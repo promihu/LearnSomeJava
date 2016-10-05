@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+    <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="pro.mikhail.learnsomejava.model">
+    <class name="Dog" table="dogtable">
+        <id name="id" column="dog_id">
+            <generator class="native"/>
+        </id>
+        <property name="name" column="dog_name"/>
+        <property name="height" column="dog_height"/>
+        <property name="weight" column="dog_weight"/>
+        <property name="dateOfBirth" column="dog_birthday"/>
+    </class>
+</hibernate-mapping>

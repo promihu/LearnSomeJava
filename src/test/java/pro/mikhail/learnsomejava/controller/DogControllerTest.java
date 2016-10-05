@@ -3,7 +3,7 @@ package pro.mikhail.learnsomejava.controller;
 
 import io.restassured.response.Response;
 import org.testng.annotations.Test;
-import pro.mikhail.learnsomejava.dao.DogDao;
+import pro.mikhail.learnsomejava.dao.DogDaoInMemory;
 import pro.mikhail.learnsomejava.model.Dog;
 
 import static io.restassured.RestAssured.given;
@@ -35,7 +35,7 @@ public class DogControllerTest {
     @Test
     public void addDogShouldReturnNoError(){
 
-        Dog testDog = new Dog(DogDao.generateNextId(), "Test1", "10/01/1981", 10, 20);
+        Dog testDog = new Dog(DogDaoInMemory.generateNextId(), "Test1", "10/01/1981", 10, 20);
 
 
         Response response =
@@ -67,7 +67,7 @@ public class DogControllerTest {
     @Test
     public void shouldAddDog(){
 
-        Dog testDog = new Dog(DogDao.generateNextId(),"Test1", "10/01/1981", 10, 20);
+        Dog testDog = new Dog(DogDaoInMemory.generateNextId(),"Test1", "10/01/1981", 10, 20);
 
         Response response =
 
@@ -113,7 +113,7 @@ public class DogControllerTest {
     @Test
     public void shouldGetDog(){
 
-        Dog testDog = new Dog(DogDao.generateNextId(), "shouldGetDog", "10/01/1981", 10, 20);
+        Dog testDog = new Dog(DogDaoInMemory.generateNextId(), "shouldGetDog", "10/01/1981", 10, 20);
 
         //add dog
         Response response =
@@ -159,7 +159,7 @@ public class DogControllerTest {
     @Test
     public void shouldReturnErrorIfNoDogToGet(){
 
-        Dog testDog = new Dog(DogDao.generateNextId(),"shouldGetDog", "10/01/1981", 10, 20);
+        Dog testDog = new Dog(DogDaoInMemory.generateNextId(),"shouldGetDog", "10/01/1981", 10, 20);
 
         //add dog
         Response response =
@@ -204,8 +204,8 @@ public class DogControllerTest {
     @Test
     public void shouldUpdateDog(){
 
-        Dog testDog = new Dog(DogDao.generateNextId(), "shouldGetDog", "10/01/1981", 10, 20);
-        Dog oldNewDog = new Dog(DogDao.generateNextId(),"shouldUpdateDog", "10/01/1981", 1, 2);
+        Dog testDog = new Dog(DogDaoInMemory.generateNextId(), "shouldGetDog", "10/01/1981", 10, 20);
+        Dog oldNewDog = new Dog(DogDaoInMemory.generateNextId(),"shouldUpdateDog", "10/01/1981", 1, 2);
 
         //add dog
         Response response =
@@ -264,8 +264,8 @@ public class DogControllerTest {
     @Test
     public void shouldReturnErrorIfNoDogToUpdate(){
 
-        Dog testDog = new Dog(DogDao.generateNextId(),"shouldGetDog", "10/01/1981", 10, 20);
-        Dog oldNewDog = new Dog(DogDao.generateNextId(),"shouldUpdateDog","10/01/1981", 10, 20);
+        Dog testDog = new Dog(DogDaoInMemory.generateNextId(),"shouldGetDog", "10/01/1981", 10, 20);
+        Dog oldNewDog = new Dog(DogDaoInMemory.generateNextId(),"shouldUpdateDog","10/01/1981", 10, 20);
 
         //add dog
         Response response =
@@ -313,7 +313,7 @@ public class DogControllerTest {
     @Test
     public void shouldDeleteDog(){
 
-        Dog testDog = new Dog(DogDao.generateNextId(),"shouldGetDog", "10/01/1981", 10, 20);
+        Dog testDog = new Dog(DogDaoInMemory.generateNextId(),"shouldGetDog", "10/01/1981", 10, 20);
 
         //add dog
         Response response =
@@ -347,7 +347,7 @@ public class DogControllerTest {
     @Test
     public void shouldReturnErrorIfNoDogToDelete(){
 
-        Dog testDog = new Dog(DogDao.generateNextId(),"shouldGetDog", "10/01/1981", 10, 20);
+        Dog testDog = new Dog(DogDaoInMemory.generateNextId(),"shouldGetDog", "10/01/1981", 10, 20);
 
         //add dog
         Response response =

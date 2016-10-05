@@ -1,5 +1,7 @@
+pro\mikhail\learnsomejava\dao\DogDaoInMemory.class
+pro\mikhail\learnsomejava\util\HibernateUtil.class
 pro\mikhail\learnsomejava\Lesson1Servlet.class
-pro\mikhail\learnsomejava\dao\DogDao.class
 pro\mikhail\learnsomejava\model\Dog.class
 pro\mikhail\learnsomejava\controller\DogController.class
+pro\mikhail\learnsomejava\dao\DogDao.class
 pro\mikhail\learnsomejava\service\DogService.class

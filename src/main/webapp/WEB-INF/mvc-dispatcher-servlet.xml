@@ -19,8 +19,20 @@
         </constructor-arg>
     </bean>
 
-    <bean id="dogDaoBean" class="pro.mikhail.learnsomejava.dao.DogDao"/>
+    <beans profile="inmemory">
+        <bean id="dogDaoBean" class="pro.mikhail.learnsomejava.dao.DogDaoInMemory"/>
+    </beans>
 
-
+    <beans profile="hibernate">
+        <bean id="dogDaoBean" class="pro.mikhail.learnsomejava.dao.DogDaoHibernate"/>
+    </beans>
 
 </beans>
+
+
+
+
+
+
+
+

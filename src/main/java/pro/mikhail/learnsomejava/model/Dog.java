@@ -42,6 +42,27 @@ public class Dog {
         this.setWeight(weight);
     }
 
+    public Dog(String name, String dateOfBirth, int height, int weight){
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+        Date date = new Date();
+
+        try  {
+
+            date = dateFormat.parse(dateOfBirth);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        this.setId(0);
+        this.setName(name);
+        this.setDateOfBirth(date);
+        this.setHeight(height);
+        this.setWeight(weight);
+    }
+
     public String getName() {
         return name;
     }

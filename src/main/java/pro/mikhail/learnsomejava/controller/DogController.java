@@ -5,13 +5,14 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.util.UriComponentsBuilder;
 import pro.mikhail.learnsomejava.model.Dog;
 import pro.mikhail.learnsomejava.service.DogService;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -21,6 +22,9 @@ import java.util.Map;
 
 @Controller
 public class DogController {
+
+    private ThreadLocal<Integer> counter = new ThreadLocal<Integer>();
+
 
     private DogService dogService;
 
@@ -57,7 +61,12 @@ public class DogController {
 
         Dog dog = dogService.getDog(id);
 
+        if (counter.get() == null)
+            counter.set(0);
+
         if(dog != null){
+            counter.set(counter.get() + 1);
+            System.out.println("Thread: " + Thread.currentThread().toString() + "Count: " + counter.get());
             return new ResponseEntity<>(dog, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -71,6 +80,7 @@ public class DogController {
 
         if(dogIndex != -1){
             headers.setLocation(ucBuilder.path("/dog/{id}").buildAndExpand(dogIndex).toUri());
+
             return new ResponseEntity<>(headers, HttpStatus.CREATED);
         }
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
