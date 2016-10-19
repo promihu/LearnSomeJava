@@ -95,6 +95,18 @@
           <version>3.4.3</version>
       </dependency>
 
+      <dependency>
+          <groupId>io.qala.datagen</groupId>
+          <artifactId>qala-datagen</artifactId>
+          <version>1.9.2</version>
+      </dependency>
+
+      <dependency>
+          <groupId>io.qala.datagen</groupId>
+          <artifactId>qala-datagen-java8types</artifactId>
+          <version>1.9.2</version>
+      </dependency>
+
 
 
   </dependencies>

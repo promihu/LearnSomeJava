@@ -2,9 +2,11 @@ package pro.mikhail.learnsomejava.dao;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import pro.mikhail.learnsomejava.model.Dog;
 import pro.mikhail.learnsomejava.util.HibernateUtil;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -18,7 +20,17 @@ public class DogDaoHibernate implements DogDao {
 
     public Map<Integer, Dog> getAllDogs(){
 
-        return dogKeeper;
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        Query query = session.createQuery("from Dog");
+        List<Dog> dogList = query.list();
+
+        Map<Integer, Dog> dogMap = new ConcurrentHashMap<>();
+        for (Dog dog : dogList) {
+            dogMap.put(dog.getId(), dog);
+        }
+
+        return dogMap;
     }
 
     public Dog getDog(int id){
@@ -31,34 +43,53 @@ public class DogDaoHibernate implements DogDao {
         session.getTransaction().commit();
 
         return dog;
-
-//        return getAllDogs().get(id);
     }
 
     public int saveDog(Dog dog){
 
-        int savedDogID = generateNextId();
-        getAllDogs().put(savedDogID, dog);
 
-        return savedDogID;
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        session.beginTransaction();
+
+        int savedDogId = (int) session.save(dog);
+
+        Dog savedDog = (Dog) session.get(Dog.class, savedDogId);
+
+        session.getTransaction().commit();
+
+        return savedDog.getId();
     }
 
     public boolean updateDog(int id, Dog dog){
 
-        if(getAllDogs().containsKey(id)) {
-            getAllDogs().replace(id, dog);
-            return true;
-        }
-        return false;
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        session.beginTransaction();
+
+        Dog dogUnderEdit = (Dog) session.get(Dog.class, id);
+        dogUnderEdit.setName(dog.getName());
+        dogUnderEdit.setDateOfBirth(dog.getDateOfBirth());
+        dogUnderEdit.setWeight(dog.getWeight());
+        dogUnderEdit.setHeight(dog.getHeight());
+
+        session.getTransaction().commit();
+
+        return true;
+
     }
 
     public Dog removeDoge(int id){
 
-        return getAllDogs().remove(id);
-    }
+        Session session = HibernateUtil.getSessionFactory().openSession();
 
-    public static synchronized Integer generateNextId(){
-        return dogCounter++;
+        session.beginTransaction();
+
+        Dog dog = (Dog) session.get(Dog.class, id);
+        session.delete(dog);
+        session.getTransaction().commit();
+
+        return dog;
     }
 
     public DogDaoHibernate() {
