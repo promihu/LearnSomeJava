@@ -3,6 +3,7 @@ package pro.mikhail.learnsomejava.dao;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
+import org.springframework.transaction.annotation.Transactional;
 import pro.mikhail.learnsomejava.model.Dog;
 import pro.mikhail.learnsomejava.util.HibernateUtil;
 
@@ -33,6 +34,7 @@ public class DogDaoHibernate implements DogDao {
         return dogMap;
     }
 
+    @Transactional
     public Dog getDog(int id){
 
         Session session = HibernateUtil.getSessionFactory().openSession();
@@ -61,6 +63,7 @@ public class DogDaoHibernate implements DogDao {
         return savedDog.getId();
     }
 
+    @Transactional
     public boolean updateDog(int id, Dog dog){
 
         Session session = HibernateUtil.getSessionFactory().openSession();
@@ -72,6 +75,10 @@ public class DogDaoHibernate implements DogDao {
         dogUnderEdit.setDateOfBirth(dog.getDateOfBirth());
         dogUnderEdit.setWeight(dog.getWeight());
         dogUnderEdit.setHeight(dog.getHeight());
+
+        if(true)
+            throw new RuntimeException("HOLY CRAB");
+
 
         session.getTransaction().commit();
 
